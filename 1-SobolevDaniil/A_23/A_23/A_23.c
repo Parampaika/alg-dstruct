@@ -4,13 +4,8 @@
 #include <string.h>
 #include <conio.h>
 #include <locale.h>
+#include "Header.h"
 
-
-typedef struct List {
-	char* word;
-	int len;
-	struct List* next;
-}List_t;
 
 void addInfo(List_t* node, char* info) {
 	if (!node) {
@@ -28,7 +23,15 @@ void addInfo(List_t* node, char* info) {
 }
 
 List_t* insertBeforeNode(List_t** node, List_t** nodeInList, List_t* head) {
-	if (!node || !nodeInList || !head) {
+	if (!node ) {
+		printf("Error the pointer was NULL\n");
+		exit(1);
+	}
+	if (!nodeInList) {
+		printf("Error the pointer was NULL\n");
+		exit(1);
+	}
+	if (!head) {
 		printf("Error the pointer was NULL\n");
 		exit(1);
 	}
@@ -49,7 +52,11 @@ List_t* insertBeforeNode(List_t** node, List_t** nodeInList, List_t* head) {
 	return head;
 }
 List_t* Sort_List(List_t* root, List_t* node) {
-	if (!node || !root) {
+	if (!node) {
+		printf("Error the pointer was NULL\n");
+		exit(1);
+	}
+	if (!root) {
 		printf("Error the pointer was NULL\n");
 		exit(1);
 	}
@@ -119,7 +126,7 @@ void printList_oneLen(List_t* root, int N) {
 }
 
 int main(void) {
-	char buffer[50];
+	char buffer[SIZE];
 	setlocale(LC_ALL, "Rus");
 	List_t* root = (List_t*)malloc(sizeof(List_t));
 	if (!root) {
