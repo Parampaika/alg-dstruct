@@ -21,7 +21,7 @@ typedef struct vertex {
 
 
 typedef struct {
-	int numElem2;
+	int coun;
 	int numElem;
 	int* elements;
 	int head;
@@ -34,20 +34,31 @@ void startQueue(queue* queue, int number) {
 	queue->elements = (int*)malloc((number + 1) * sizeof(int));
 	queue->numElem = number;
 	queue->head = 1;
-	queue->rear = 0;
-	queue->numElem2 = 0;
+	queue->rear = 1;
+	queue->coun = 0;
 }
 
 
 void Push(queue* q, int x) {
-	q->numElem2++;
-	if (q->rear < q->numElem ) {
-		q->rear++;
-		q->elements[q->rear] = x;
+	q->coun++;
+	q->elements[q->rear] = x;
+	if (q->rear == q->numElem) { q->rear = 1; }
+	else {
+		q->rear = q->rear + 1;
 	}
-	else
-		printf("Очередь полна!\n");
-	return;
+
+}
+
+int Pop(queue* q) {
+	q->coun--;
+	int x = q->elements[q->head];
+	if (q->head == q->numElem) { 
+		q->head = 1; 
+	}
+	else { 
+		q->head = q->head + 1; 
+	}
+	return x;
 }
 
 int isempty(queue* q) {
@@ -55,17 +66,6 @@ int isempty(queue* q) {
 	else  return 0;
 }
 
-int Pop(queue* q) {
-	int x;
-	q->numElem2--;
-	if (isempty(q) == 1) {
-		printf("Очередь пуста!\n");
-		return(0);
-	}
-	x = q->elements[q->head];
-	q->head++;
-	return x;
-}
 
 void AddNewConnection(vertex* vertexes, int changVert, int addVert) {
 	int placeForVert = LAST_VERT;
@@ -108,8 +108,13 @@ void FindConnections(vertex* vertexes, int knotsC) {
 	if (!sNum) {
 		return;
 	}
-
-	while ((scanf("%s %s", fNum, sNum) != EOF)) {
+	/*FILE* fp;
+	char name[] = "Текст.txt";
+	if ((fp = fopen(name, "r")) == NULL)
+	{
+		printf("Не удалось открыть файл");
+	}*/
+	while ((scanf( "%s %s", fNum, sNum) != EOF)) {
 		vert1 = atoi(fNum);
 		vert2 = atoi(sNum);
 		AddNewConnection(vertexes, vert1, vert2);
@@ -124,7 +129,7 @@ void BFS(vertex* vertexes, queue* queue) {
 	int cVert = -1;
 	Push(queue, 0);
 	vertexes[0].visited = VISITED;
-	while (queue->numElem2 > 0) {
+	while (queue->coun > 0) {
 		cVert = Pop(queue);
 		printf("%d ", cVert);
 		for (int i = 0; i < vertexes[cVert].numConn; i++) {
