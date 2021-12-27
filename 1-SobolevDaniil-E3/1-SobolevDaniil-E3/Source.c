@@ -113,6 +113,16 @@ void WriteMinHeightOfLeaves(btree_t* nodePointer) {
 	}
 }
 
+void DestroyTree(btree_t* tree)
+{
+	if (tree != NULL)
+	{
+		DestroyTree(tree->left);
+		DestroyTree(tree->right);
+		free(tree);
+	}
+}
+
 int main(void) {
 	btree_t* tree = FormExampleBinTree();
 	PrintTree(tree, 0);
@@ -121,5 +131,7 @@ int main(void) {
 
 	WriteMinHeightOfLeaves(tree);
 	PrintTree(tree, 0);
+
+	DestroyTree(tree);
 	return 0;
 }
