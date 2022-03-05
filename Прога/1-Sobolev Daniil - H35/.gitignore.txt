@@ -1,9 +1,0 @@
-/Debug
-/Release
-*.sln
-*.vcxproj
-*.filters
-*.user
-*.suo
-*.db
-/.vs 
